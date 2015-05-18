@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html ng-app="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="#">
+    <title>色彩的考驗</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      .square{
+        cursor:pointer;
+        margin:0px;
+        height:200px;
+      }
+    </style>
+  </head>
+
+  <body ng-controller="mainCtrl">
+
+    <div class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header"> 
+          <a class="navbar-brand" href="index.html">色彩的考驗</a>
+          <a class="navbar-brand" href="#about">關</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" ng-show="bdShow">
+      <div class="alert alert-dismissable alert-info">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h3>祝台科大創設一年級張雅茵同學，生日快樂～～～YA</h3> 
+      </div>
+    </div>
+    <div class="container" ng-hide="questionShow">
+
+      <div class="jumbotron" style="text-align:center;margin-top:20px;">
+        <h1 style="margin-bottom:80px;">挑戰你的色彩敏感度！</span></h1>
+        <p>這是一個簡單的小遊戲，看看你對色彩飽和度和亮度有多銳利的分辨力。</p>
+        <p>選擇你的挑戰：</p>
+        <div class="row" style="margin-top:60px;" ng-show="choiceShow">
+          <div class="col-xs-6" style="text-align:right;"><a class="btn btn-primary btn-lg" href="#" id="saturation" ng-click="runSatu()">飽和度</a></div>
+          <div class="col-xs-6" style="text-align:left;"><a class="btn btn-primary btn-lg" href="#" id="brightness" ng-click="runBri()">&nbsp;&nbsp;亮度&nbsp;&nbsp;</a></div>
+        </div>
+      </div>
+
+      <h1 style="margin-top:50px;" id="about">關於</h1>
+      <div class="row">
+        <div class="col-md-4 col-xs-12" >
+          <div class="panel panel-defalut">
+            <div class="panel-heading">
+              <h3 class="panel-title">這是什麼？</h3>
+            </div>
+            <div class="panel-body">
+              這是一個簡單的小網站，可以測試你對色彩某些特性的敏感度。對於有修色彩心理學的同學來說，是個有趣的遊戲，所以我就順手把它做出來給大家玩囉～我使用的色彩系統是HSL，他是個很方便使用的色彩模式，有空可以來<a href="http://hslpicker.com">這個網站</a>玩玩看，就能更了解HSL的特性了。
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="panel panel-defalut">
+            <div class="panel-heading">
+              <h3 class="panel-title">HSL喜蝦咪？</h3>
+            </div>
+            <div class="panel-body">
+              HSL是一種網頁常用的色彩模式，可以從RGB直接轉換而得，也可以直接在CSS裡使用。H(Hue)是色相，S(Saturation)代表飽和度，而L(Lightness)就是亮度的意思囉！其中飽和度愈高顏色愈純，反之則愈灰。而亮度愈高，愈接近白色，反之愈趨近黑色。
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="panel panel-defalut">
+            <div class="panel-heading">
+              <h3 class="panel-title">關於作者</h3>
+            </div>
+            <div class="panel-body">
+              我是目前就讀台科大全校不分系大一的<a href="https://www.facebook.com/chiunhauyou">游宭鎬</a>，主修商業設計，不過我也很熱愛寫程式，希望以後能從事結合設計與資訊的工作。今年10/28開始一項名為「Weekly Dev」的計畫，規定自己每個星期寫出一個跟藝術、設計或色彩方面有關的網站，持續一年。這是我第一個專案，希望我能撐下去囉～歡迎替我加油打氣送宵夜：）
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="saturation" ng-show="questionShow">
+      
+      <h2 style="padding-top:20px;"ng-show="satuShow">誰的飽和度比較高？</h2>
+      <h2 style="padding-top:20px;"ng-hide="satuShow">誰的亮度比較高？</h2>
+        
+      <div class="well well-lg"ng-show="satuShow">
+        <h4>以下會給你十組題目，每題有兩個顏色，他們的明度均相同，但飽和度是不同的。因此，你的任務是，選擇飽和度高的那個～</h4>
+      </div>
+      <div class="well well-lg"ng-hide="satuShow">
+        <h4>以下會給你十組題目，每題有兩個顏色，他們的飽和度均相同，但亮度是不同的。因此，你的任務是，選擇亮度高的那個～</h4>
+      </div>
+      
+      <div class="row" style="text-align:center;">
+        <div class="col-xs-6 col-xs-offset-3">
+          <button ng-click="initial()" ng-show="btnStartShow" class="btn btn-default btn-lg ">開始</button>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-xs-6 col-xs-offset-3" style="text-align:center;">
+          <a href="#" class="btn btn-primary btn-md" style="pointer-events: none; cursor: default;" ng-show="numberShow">
+            第{{number}}題
+          </a>
+        </div>
+      </div>
+      <div class="row" style="padding-top:20px;padding-bottom:30px;">
+
+        <div class="col-xs-6 col-md-3 col-md-offset-3 " >
+          <div ng-click="colorClick(1)" style="background-color:{{question1}};" ng-show="colorShow" class="square">&nbsp;
+          </div>
+        </div>
+        
+        <div class="col-xs-6 col-md-3" >
+          <div ng-click="colorClick(2)" style="background-color:{{question2}};" ng-show="colorShow" class="square">&nbsp;</div>
+        </div>
+          
+
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3 " >
+          <div class="alert alert-dismissable alert-info" ng-show="lebelShow">
+            <h4>十題裡總共答對{{score}}題，哈哈哈！請按<a href="index.html">這裡</a>再玩一次。</h4>
+          </div>
+
+          <table class="table" ng-show="lebelShow">
+            <tr>
+              <td>題號</td>
+              <td>顏色1</td>
+              <td>顏色2</td>
+              <td>正解</td>                
+              <td>你的選擇</td>
+            </tr>
+            <tr ng-repeat="item in questions">
+              <td>{{$index+1}}</td>
+              <td style="font-size:80px;color:{{item['hsl1']}}"><span class="glyphicon glyphicon-stop"></span></td>
+              <td style="font-size:80px;color:{{item['hsl2']}}"><span class="glyphicon glyphicon-stop"></span></td>
+              <td>{{item['correct']}}</td>
+              <td>{{item['ans']}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+   
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+
+    function mainCtrl($scope){
+            //initial
+      var side=0;
+
+      $scope.score=0;
+      $scope.number=0;
+      $scope.questions=[];
+      $scope.answers=[];
+      $scope.btnStartShow=true;
+      $scope.colorShow=false;
+      $scope.numberShow=false;
+      $scope.lebelShow=false;
+      $scope.questionShow=false;
+      $scope.satuShow=false;
+      $scope.choiceShow=true;
+      $scope.bdShow=false;
+
+      var satuOrBri;
+
+      $scope.runSatu=function(){
+        satuOrBri=true;
+        $scope.questionShow=true;
+        $scope.satuShow=true;
+      };
+      $scope.runBri=function(){
+        satuOrBri=false;
+        $scope.questionShow=true;
+        $scope.satuShow=false;
+      };
+
+      $scope.initial=function(){
+        $scope.choiceShow=false;
+        $scope.btnStartShow=false; 
+        $scope.colorShow=true; 
+        $scope.numberShow=true;
+                questions=[];
+
+        //儲存新的十題到物件questions
+        for(var i =0; i<10; i++){
+          var hue=[];
+          hue[0]=(Math.floor((Math.random() * 360) + 1)).toString();
+          hue[1]=(Math.floor((Math.random() * 360) + 1)).toString();
+          
+          var randomPair=[];
+          do {
+            randomPair[0]=(Math.floor((Math.random() * 80) + 11));
+            randomPair[1]=(Math.floor((Math.random() * 80) + 11));
+
+          }while(randomPair[0]==randomPair[1]);
+
+          var ans=1;
+          if(randomPair[0]<randomPair[1]){
+            ans=2;
+          }
+
+          var sameOne=(Math.floor((Math.random() * 70) + 16)).toString();
+
+          if(satuOrBri){
+            var question={
+            hsl1:"hsl("+hue[0]+","+randomPair[0].toString()+"%,"+sameOne+"%)",
+            hsl2:"hsl("+hue[1]+","+randomPair[1].toString()+"%,"+sameOne+"%)",
+            correct:ans
+            };
+            //alert(JSON.stringify(question));
+            $scope.questions.push(question);
+          }
+          else{
+            var question={
+            hsl1:"hsl("+hue[0]+","+sameOne+"%,"+randomPair[0]+"%)",
+            hsl2:"hsl("+hue[1]+","+sameOne+"%,"+randomPair[1]+"%)",
+            correct:ans
+            };
+
+            $scope.questions.push(question);
+          }
+        };
+       $scope.next();
+      };
+      
+      $scope.colorClick= function(side){
+        $scope.answers.push(side);
+        $scope.questions[$scope.number-1]['ans']=side;
+        $scope.next();
+      };
+      $scope.next= function(){
+        $scope.number+=1;
+        
+        if ($scope.number<=10) {
+          $scope.question1=$scope.questions[$scope.number-1]['hsl1'];
+          $scope.question2=$scope.questions[$scope.number-1]['hsl2'];
+          
+        }
+        else{
+          $scope.colorShow=false;
+          $scope.numberShow=false;
+          $scope.lebelShow=true;
+          for(var i =0;i<10;i++){
+            if($scope.questions[i]['correct']==$scope.answers[i]){
+              $scope.score+=1;
+            }
+          }
+          if($scope.score==10){
+              $scope.bdShow=true;
+          }
+        }
+      };
+    };
+
+    </script>
+   <!-- 
+  </body>
+</html>
